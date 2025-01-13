@@ -278,7 +278,7 @@
   <div class="vimeo-wrapper">
     <iframe 
       id="background-video" 
-      src="https://player.vimeo.com/video/1046383645?autoplay=1&loop=1&muted=0&background=0&badge=0&autopause=0" 
+      src="https://player.vimeo.com/video/1046383645?autoplay=1&loop=1&muted=1&background=0&badge=0&autopause=0&byline=0&title=0&portrait=0&controls=0" 
       frameborder="0" 
       allow="autoplay; fullscreen; clipboard-write; encrypted-media" 
       style="position:absolute;top:0;left:0;width:100%;height:100%;" 
@@ -349,8 +349,8 @@
   // Initialize the Vimeo player
   const player = new Vimeo.Player(iframe);
 
-  // Default state is unmuted
-  player.setVolume(1);
+  // Default state is muted for autoplay to work
+  player.setVolume(0);
   muteButton.textContent = '🔊';
 
   // Toggle mute/unmute on button click
@@ -370,6 +370,7 @@
     });
   });
 </script>
+
 
 
 
