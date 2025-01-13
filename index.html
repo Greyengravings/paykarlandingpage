@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teaser Landing Page</title>
+  <style>
+
+    #scroll-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border-bottom: 6px solid #ff6b00;
+      background-color: black;
+      color: '#ff6b00';
+      text-align: left;
+      padding: 0px 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-100%);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    #scroll-header.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+      background-color: #fff;
+    }
+
+    header {
+      background: rgba(0, 0, 0, 0.5); /* Transparent header */
+      color: #ff6B00;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 2.5rem;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      z-index: 10;
+      font-weight: bold;
+    }
+
+    /* Video Background Section */
+    .video-section {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #background-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .video-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .video-content h1 {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .video-content p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    .get-started-btn, .notify-btn {
+      background-color: #ff6b00;
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      position: relative;
+    }
+
+    .get-started-btn:hover, .notify-btn:hover {
+      background-color: #e55b00;
+    }
+
+    .notify-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+
+    /* Main Content Section */
+    .content-section {
+      width: 90%;
+      margin: 60px auto;
+      height: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 40px;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .content-section.active {
+      opacity: 1;
+      margin-top: 150px;
+    }
+
+    .mockup-layout {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      gap: 10px;
+      margin-bottom: 50px;
+    }
+
+    .mockup-text {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .mockup-text h2 {
+      font-size: 2.5rem;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .mockup-text p {
+      font-size: 1.1rem;
+      color: #000;
+    }
+
+    .mockup-image {
+      flex: 1;
+      text-align: center;
+    }
+
+    .mockup-image img {
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 10px;
+    }
+
+    /* Form Section Styling */
+.form-section {
+  background-color: white;
+  width: 50%;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 60px;
+}
+
+.form-section h3 {
+  font-size: 2rem;
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.form-section input,
+.form-section select,
+.form-section button {
+  width: 100%;
+  padding: 15px;
+  margin: 10px 0;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.form-section button {
+  background-color: #ff6b00;
+  color: white;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.form-section button:hover {
+  background-color: #e55b00;
+}
+
+.phone-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.phone-container select {
+  width: 30%;
+}
+
+.phone-container input {
+  width: 65%;
+}
+
+    /* Scroll-to-top Button */
+    .scroll-to-top-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #ff6B00;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+      display: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .scroll-to-top-btn:hover {
+      background-color: #e55b00;
+    }
+
+    /* Footer */
+    footer {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-weight: bolder;
+      margin-top: 60px;
+      border-top: 6px solid #ff6b00;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons img {
+      width: 30px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Scroll Header -->
+<header id="scroll-header">
+  <div class="header-content">
+    <h1>PAYKAR</h1>
+  </div>
+</header>
+
+<!-- Video Background Section -->
+<section class="video-section">
+  <div class="vimeo-wrapper">
+    <iframe 
+      id="background-video" 
+      src="https://player.vimeo.com/video/1046383645?autoplay=1&loop=1&muted=0&background=0&badge=0&autopause=0" 
+      frameborder="0" 
+      allow="autoplay; fullscreen; clipboard-write; encrypted-media" 
+      style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+      title="Revolutionizing International Payments">
+    </iframe>
+  </div>
+  <div class="video-content">
+    <h1>PAYKAR</h1>
+    <p>Welcome to the revolution of seamless payments</p>
+    <a href="#section1" class="get-started-btn" id="getStartedBtn">EXPLORE NOW</a>
+  </div>
+  <button id="muteButton" class="mute-btn">🔊</button>
+</section>
+
+<style>
+  .video-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .vimeo-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .mute-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 3;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 20px;
+    outline: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .mute-btn:hover {
+    background-color: #ff6b00;
+  }
+</style>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+  // Get references to the iframe and mute button
+  const iframe = document.getElementById('background-video');
+  const muteButton = document.getElementById('muteButton');
+
+  // Initialize the Vimeo player
+  const player = new Vimeo.Player(iframe);
+
+  // Default state is unmuted
+  player.setVolume(1);
+  muteButton.textContent = '🔊';
+
+  // Toggle mute/unmute on button click
+  muteButton.addEventListener('click', () => {
+    player.getVolume().then((volume) => {
+      if (volume > 0) {
+        // If currently unmuted, mute the video
+        player.setVolume(0);
+        muteButton.textContent = '🔇';
+      } else {
+        // If currently muted, unmute the video
+        player.setVolume(1);
+        muteButton.textContent = '🔊';
+      }
+    }).catch((error) => {
+      console.error('Error toggling mute:', error);
+    });
+  });
+</script>
+
+
+
+  <!-- Main Content Section -->
+  <main>
+    <div class="flip-container">
+
+      <!-- Section 1 -->
+      <section class="content-section active" id="section1">
+        <div class="card">
+          <div class="front">
+            <div class="mockup-layout">
+              <div class="mockup-text">
+                <h2>Introducing Our Revolutionary Payment System</h2>
+                <p>Enjoy real-time access to live exchange rates right at your fingertips. Effortlessly send money and make payments across the globe with speed and security, all without the complexities and limitations of traditional wallets. Say goodbye to delays and hassle, and step into a seamless and convenient way to manage your international transactions.</p>
+              </div>
+              <div class="mockup-image">
+                <img src="https://i.postimg.cc/5yg2c2mb/Screenshot-2025-01-13-at-2-01-23-AM.png" alt="Mockup 1">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+<section class="content-section" id="section2">
+  <div class="card">
+    <div class="front">
+      <div class="mockup-layout">
+        <div class="mockup-image">
+          <img src="https://i.postimg.cc/cCHpFRX7/Screenshot-2025-01-13-at-3-46-08-PM.png" alt="Mockup 2">
+        </div>
+        <div class="mockup-text">
+          <h2>Seamless Transactions</h2>
+          <p>"Send and receive payments quickly and effortlessly, with no complications or delays. Enjoy a smooth and seamless experience designed for maximum convenience, making every transaction simple and stress-free."</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+   <!-- Signup Form Section -->
+<section class="form-section" id="section4">
+  <h3>Be The First One To Know</h3>
+  <form>
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    
+    <!-- Country Code Dropdown with Phone Number Input -->
+    <div class="phone-container">
+      <select name="country-code" required>
+        <option value="+93">+93 Afghanistan</option>
+        <option value="+61">+61 Australia</option>
+        <option value="+55">+55 Brazil</option>
+        <option value="+1">+1 USA / Canada</option>
+        <option value="+20">+20 Egypt</option>
+        <option value="+251">+251 Ethiopia</option>
+        <option value="+33">+33 France</option>
+        <option value="+49">+49 Germany</option>
+        <option value="+30">+30 Greece</option>
+        <option value="+39">+39 Italy</option>
+        <option value="+91">+91 India</option>
+        <option value="+81">+81 Japan</option>
+        <option value="+82">+82 South Korea</option>
+        <option value="+212">+212 Morocco</option>
+        <option value="+233">+233 Ghana</option>
+        <option value="+44">+44 UK</option>
+        <option value="+86">+86 China</option>
+        <option value="+91">+91 India</option>
+        <option value="+52">+52 Mexico</option>
+        <option value="+54">+54 Argentina</option>
+        <option value="+34">+34 Spain</option>
+        <option value="+63">+63 Philippines</option>
+        <option value="+49">+49 Germany</option>
+        <option value="+44">+44 United Kingdom</option>
+        <option value="+86">+86 China</option>
+        <option value="+1">+1 USA / Canada</option>
+        <option value="+7">+7 Russia</option>
+        <option value="+34">+34 Spain</option>
+        <option value="+27">+27 South Africa</option>
+        <option value="+60">+60 Malaysia</option>
+        <option value="+65">+65 Singapore</option>
+        <option value="+61">+61 Australia</option>
+        <option value="+55">+55 Brazil</option>
+      </select>
+      <input type="tel" name="phone" placeholder="Phone (10 digits)" required pattern="\d{10}" maxlength="10">
+    </div>
+    
+    <button type="submit">NOTIFY ME</button>
+  </form>
+</section>
+
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 PAYKAR. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="https://instagram.com" target="_blank"><img src="insta-logo.png" alt="Instagram"></a>
+      <a href="https://linkedin.com" target="_blank"><img src="linkedin-logo.png" alt="LinkedIn"></a>
+      <a href="https://wa.me/YOUR_NUMBER" target="_blank"><img src="whatsapp-logo.png" alt="WhatsApp"></a>
+    </div>
+  </footer>
+
+  <!-- Scroll to top Button -->
+  <button class="scroll-to-top-btn" id="scrollToTopBtn">&uarr;</button>
+
+  <script>
+      // Add scroll event listener
+      window.addEventListener('scroll', () => {
+        const header = document.getElementById('scroll-header');
+        const videoSection = document.querySelector('.video-section');
+        const videoBottom = videoSection.offsetHeight;
+    
+        if (window.scrollY > videoBottom) {
+          header.classList.add('visible');
+        } else {
+          header.classList.remove('visible');
+        }
+      });
+    
+    // Scroll Effect for Fade-in Mockups
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('.content-section');
+      const scrollPosition = window.scrollY + window.innerHeight;
+
+      sections.forEach((section) => {
+        if (section.offsetTop < scrollPosition) {
+          section.classList.add('active');
+        }
+      });
+    });
+
+    // Scroll to Top Button
+    window.addEventListener('scroll', function() {
+      const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+      if (window.scrollY > 300) {
+        scrollToTopBtn.style.display = 'block';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    });
+
+    document.getElementById('scrollToTopBtn').addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
